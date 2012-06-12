@@ -144,11 +144,11 @@ public class Boggle
 
 	do
 	{
-	    sRead = fileReader.readLine ();
-	    if (sRead.equals(word))
+	    if (word.equalsIgnoreCase (sRead))
 	    {
 		return true;
 	    }
+	    sRead = fileReader.readLine ();
 	}
 	while (sRead != null);
 	return false;
