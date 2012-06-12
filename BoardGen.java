@@ -12,15 +12,15 @@ public class BoardGen
 
 	while (c.getChar () != 'x')
 	{
-	    c.clear();
+	    c.clear ();
 	    char board[] [] = boardGen ();
 	    c.println ("BOGGLE");
 
 
-	    for (int i = 0 ; i < 4 ; i++)
+	    for (int row = 0 ; row < 4 ; row++) //prents every element of every row
 	    {
-		for (int j = 0 ; j < 4 ; j++)
-		    c.print (board [i] [j] + " ");
+		for (int collumn = 0 ; collumn < 4 ; collumn++)   //prints each element of roe i
+		    c.print (board [row] [collumn] + " ");
 
 		c.println ();
 	    }
@@ -31,22 +31,22 @@ public class BoardGen
 
     public static char[] [] boardGen ()
     {
-	int x, y;
-	char board[] [] = {
+	int row, collumn;
+	char board[] [] = {  //Creates array of spaces
 		{' ', ' ', ' ', ' '},
 		{' ', ' ', ' ', ' '},
 		{' ', ' ', ' ', ' '},
 		{' ', ' ', ' ', ' '}};
-	for (int i = 0 ; i < 16 ; i++)
+	for (int i = 0 ; i < 16 ; i++) //For each dieid
 	{
 	    do
 	    {
-		x = (int) (Math.random () * 4);
-		y = (int) (Math.random () * 4);
+		row = (int) (Math.random () * 4); //generates a random position
+		collumn = (int) (Math.random () * 4);
 
 	    }
-	    while (board [x] [y] != ' ');
-	    board [x] [y] = letterRoll (i);
+	    while (board [row] [collumn] != ' '); //Runs until positrion is empty
+	    board [row] [collumn] = letterRoll (i); //places the die in that position
 
 	}
 	return board;
@@ -55,7 +55,7 @@ public class BoardGen
 
     public static char letterRoll (int dieId)
     {
-	char dice[] [] = {
+	char dice[] [] = {  //2D array of 1D arrays of characters representing each letter on a given die
 		{'A', 'A', 'C', 'I', 'O', 'T'},
 		{'A', 'H', 'M', 'O', 'R', 'S'},
 		{'E', 'G', 'K', 'L', 'U', 'Y'},
