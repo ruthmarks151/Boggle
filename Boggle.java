@@ -12,7 +12,7 @@ public class Boggle
     {
 	c = new Console ();
 	int wordRow = 16;
-	int wordCollumn = 3;
+	int wordColumn = 3;
 	int score = 0;
 	String gottenWord;
 
@@ -24,21 +24,21 @@ public class Boggle
 
 	while (true)
 	{
-	    c.setCursor (wordRow, wordCollumn);
+	    c.setCursor (wordRow, wordColumn);
 	    c.print ("          ");
-	    c.setCursor (wordRow, wordCollumn);
+	    c.setCursor (wordRow, wordColumn);
 	    gottenWord = c.readString ();
 	    wordRow++;
-	    if (spellCheck (gottenWord) && moveCheck (board, gottenWord)
+	    if (spellCheck (gottenWord) )//&& moveCheck (board, gottenWord))
 		score++;
 
 	    if (wordRow > 24)
 	    {
 		c.print ("          ");
 		wordRow = 5;
-		wordCollumn += 30;
+		wordColumn += 30;
 	    }
-	    c.setCursor (wordRow + 1, wordCollumn);
+	    c.setCursor (wordRow + 1, wordColumn);
 	    c.print ("SCORE: " + score);
 	}
 
@@ -153,31 +153,30 @@ public class Boggle
 	while (sRead != null);
 	return false;
     }
-    
-    public static Boolean moveCheck (char[] [] board, String word)
+
+
+    public static boolean moveCheck (char[] [] board, String word)
     {
-	int x, y, z, exit;
-	
-	exit = 0;
+	int x;
 
 	//Fill location array with dummies
 	int location[] = new int [16];
-	for (int x = 0 ; x < 16 ; x++)
-	    location [x] = -100;
+	for (int i = 0 ; i < 16 ; i++)
+	    location [i] = -100;
 
 	//Fill wordArray with letters from the word
-	int wordArray[] = new int [word.length];
-	for (int x = 0 ; x < word.length ; x++)
-	    wordArray [x] = word.charAt (x);
+	int wordArray[] = new int [word.length ()];
+	for (int i = 0 ; i < word.length () ; i++)
+	    wordArray [i] = word.charAt (i);
 
 	//Run through word array
-	for (z = 0 ; z < wordArray.length)
+	for (int z = 0 ; z < wordArray.length; z++)
 	{
 	    //Checking by row
-	    for (x = 0 ; x < 4  && exit != 1; x++)
+	    for (x = 0 ; x < 4 ; x++)
 	    {
 		//And by column
-		for (y = 0 ; y < 4 && exit != 1; y++)
+		for (int y = 0 ; y < 4 ; y++)
 		{
 		    //Once the letter is found
 		    if (wordArray [z] == board [x] [y])
@@ -185,26 +184,26 @@ public class Boggle
 			//Note its location
 			location [z] = x * 4 + y;
 			//And exit out of the two searching loops
-			exit = 1;
+			break;
 		    }
+		    if (wordArray [z] == board [x] [y])
+			break;
 		}
 	    }
 	    //If you run through the whole board and the letter's not there
 	    if (x == 4)
 		//The word's invalid
 		return false;
-
 	}
-
 	//Run through the location array
-	for (int x = 1 ; x < word.length ; x++)
+	for (int i = 1 ; i < word.length () ; i++)
 	{
 	    //Checking that the location value of each letter, excepting the first, is within the 3x3 square centered on the previous letter
-	    if (location [x] == location [x - 1] - 5 || location [x] == location [x - 1] - 4 || location [x] == location [x - 1] - 3 || location [x] == location [x - 1] - 1 || location [x] == location [x - 1] + 1 || location [x] == location [x - 1] + 3 || location [x] == location [x - 1] + 4 || location [x] == location [x - 1] + 5)
+	    if (location [i] == location [i - 1] - 5 || location [i] == location [i - 1] - 4 || location [i] == location [i - 1] - 3 || location [i] == location [i - 1] - 1 || location [i] == location [i - 1] + 1 || location [i] == location [i - 1] + 3 || location [i] == location [i - 1] + 4 || location [i] == location [i - 1] + 5)
 	    {
 	    }
 	    //Or if it's a dummy
-	    else if (location [x] == -100)
+	    else if (location [i] == -100)
 	    {
 	    }
 	    //If the locations don't match up
@@ -214,8 +213,8 @@ public class Boggle
 	}
 	//If the locations are all fine
 	return true;
+    }
 }
-
 
 
 
