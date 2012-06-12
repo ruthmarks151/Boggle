@@ -1,13 +1,9 @@
 // The "Boggle" class.
 import java.awt.*;
 import hsa.Console;
-<<<<<<< HEAD
-
-=======
 import java.io.BufferedReader;
 import java.io.FileReader;
 import java.io.IOException;
->>>>>>> master
 public class Boggle
 {
     static Console c;           // The output console
@@ -24,27 +20,18 @@ public class Boggle
 	char board[] [] = boardGen ();
 	drawBoard (board);
 
-<<<<<<< HEAD
-=======
 
 
->>>>>>> master
 	while (true)
 	{
 	    c.setCursor (wordRow, wordCollumn);
 	    c.print ("          ");
 	    c.setCursor (wordRow, wordCollumn);
-<<<<<<< HEAD
-	    gottenWord=c.readString ();
-	    wordRow++;
-	    
-=======
 	    gottenWord = c.readString ();
 	    wordRow++;
 	    if (spellCheck (gottenWord))
 		score++;
 
->>>>>>> master
 	    if (wordRow > 24)
 	    {
 		c.print ("          ");
@@ -123,10 +110,6 @@ public class Boggle
 
 	return dice [dieId] [(int) (Math.random () * 6)];
     }
-<<<<<<< HEAD
-}
-
-=======
 
 
     public static boolean spellCheck (String word)
@@ -161,11 +144,11 @@ public class Boggle
 
 	do
 	{
-	    sRead = fileReader.readLine ();
-	    if (sRead.equals(word))
+	    if (word.equalsIgnoreCase (sRead))
 	    {
 		return true;
 	    }
+	    sRead = fileReader.readLine ();
 	}
 	while (sRead != null);
 	return false;
@@ -175,4 +158,3 @@ public class Boggle
 
 
 
->>>>>>> master
