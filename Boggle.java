@@ -24,13 +24,13 @@ public class Boggle
 
 	while (true)
 	{
-	    c.setCursor (wordRow, wordCollumn);
+	    c.setCursor (wordRow, wordColumn);
 	    c.print ("          ");
-	    c.setCursor (wordRow, wordCollumn);
+	    c.setCursor (wordRow, wordColumn);
 	    gottenWord = c.readString ();
 	    wordRow++;
 	    if (spellCheck (gottenWord))
-		score++;
+		score+=scoreWord(gottenWord);
 
 	    if (wordRow > 24)
 	    {
@@ -38,11 +38,32 @@ public class Boggle
 		wordRow = 5;
 		wordCollumn += 30;
 	    }
-	    c.setCursor (wordRow + 1, wordCollumn);
+	    c.setCursor (wordRow + 1, wordColumn);
 	    c.print ("SCORE: " + score);
 	}
 
 
+    }
+
+
+    public static int scoreWord (String word)
+    {
+	if (word.length() > 7)
+	    return 11;
+
+	if (word.length() == 7)
+	    return 5;
+
+	if (word.length() == 6)
+	    return 3;
+
+	if (word.length() == 5)
+	    return 2;
+
+	if (word.length() == 4 || word.length() == 3)
+	    return 1;
+	
+	return 0;//Words with 2 or 1 letters do not count
     }
 
 
@@ -53,12 +74,12 @@ public class Boggle
 
 	for (int row = 0 ; row < 4 ; row++) //prents every element of every row
 	{
-	    for (int collumn = 0 ; collumn < 4 ; collumn++)   //prints each element of roe i
+	    for (int column = 0 ; column < 4 ; column++)   //prints each element of roe i
 	    {
 
-		c.drawRoundRect (row * 60, collumn * 60 + 60, 50, 50, 10, 10);
+		c.drawRoundRect (row * 60, column * 60 + 60, 50, 50, 10, 10);
 		c.setFont (new Font ("Arial", Font.PLAIN, 50));
-		c.drawString ((board [row] [collumn] + " "), (collumn * 60 + 5), (row * 60 + 105));
+		c.drawString ((board [row] [column] + " "), (column * 60 + 5), (row * 60 + 105));
 	    }
 	}
     }
@@ -66,7 +87,7 @@ public class Boggle
 
     public static char[] [] boardGen ()
     {
-	int row, collumn;
+	int row, column;
 	char board[] [] = {  //Creates array of spaces
 		{' ', ' ', ' ', ' '},
 		{' ', ' ', ' ', ' '},
@@ -77,11 +98,11 @@ public class Boggle
 	    do
 	    {
 		row = (int) (Math.random () * 4); //generates a random position
-		collumn = (int) (Math.random () * 4);
+		column = (int) (Math.random () * 4);
 
 	    }
-	    while (board [row] [collumn] != ' '); //Runs until positrion is empty
-	    board [row] [collumn] = letterRoll (i); //places the die in that position
+	    while (board [row] [column] != ' '); //Runs until positrion is empty
+	    board [row] [column] = letterRoll (i); //places the die in that position
 
 	}
 	return board;
@@ -114,10 +135,11 @@ public class Boggle
 
     public static boolean spellCheck (String word)
     {
-	String filename = "corncob_caps.txt";
+	
 	//Uses the corncob caps dictionary file
 	//http://www.mieliestronk.com/wordlist.html
-	boolean goodSpelling;
+	String filename = "corncob_caps.txt";
+	
 	try
 	{
 	    return readFromFile (filename, word);
@@ -144,13 +166,13 @@ public class Boggle
 
 	do
 	{
-	    if (word.equalsIgnoreCase (sRead))
+	    if (word.equalsIgnoreCase (sRead))//if the word is found
 	    {
 		return true;
 	    }
-	    sRead = fileReader.readLine ();
+	    sRead = fileReader.readLine ();//reads the next line in the file input buffer
 	}
-	while (sRead != null);
+	while (sRead != null);//null indicates the end of the file
 	return false;
     }
 }
