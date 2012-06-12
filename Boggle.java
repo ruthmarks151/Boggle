@@ -29,7 +29,7 @@ public class Boggle
 	    c.setCursor (wordRow, wordCollumn);
 	    gottenWord = c.readString ();
 	    wordRow++;
-	    if (spellCheck (gottenWord))
+	    if (spellCheck (gottenWord) && moveCheck (board, gottenWord)
 		score++;
 
 	    if (wordRow > 24)
@@ -53,12 +53,12 @@ public class Boggle
 
 	for (int row = 0 ; row < 4 ; row++) //prents every element of every row
 	{
-	    for (int collumn = 0 ; collumn < 4 ; collumn++)   //prints each element of roe i
+	    for (int column = 0 ; column < 4 ; column++)   //prints each element of roe i
 	    {
 
-		c.drawRoundRect (row * 60, collumn * 60 + 60, 50, 50, 10, 10);
+		c.drawRoundRect (row * 60, column * 60 + 60, 50, 50, 10, 10);
 		c.setFont (new Font ("Arial", Font.PLAIN, 50));
-		c.drawString ((board [row] [collumn] + " "), (collumn * 60 + 5), (row * 60 + 105));
+		c.drawString ((board [row] [column] + " "), (column * 60 + 5), (row * 60 + 105));
 	    }
 	}
     }
@@ -66,7 +66,7 @@ public class Boggle
 
     public static char[] [] boardGen ()
     {
-	int row, collumn;
+	int row, column;
 	char board[] [] = {  //Creates array of spaces
 		{' ', ' ', ' ', ' '},
 		{' ', ' ', ' ', ' '},
@@ -77,11 +77,11 @@ public class Boggle
 	    do
 	    {
 		row = (int) (Math.random () * 4); //generates a random position
-		collumn = (int) (Math.random () * 4);
+		column = (int) (Math.random () * 4);
 
 	    }
-	    while (board [row] [collumn] != ' '); //Runs until positrion is empty
-	    board [row] [collumn] = letterRoll (i); //places the die in that position
+	    while (board [row] [column] != ' '); //Runs until positrion is empty
+	    board [row] [column] = letterRoll (i); //places the die in that position
 
 	}
 	return board;
@@ -153,6 +153,67 @@ public class Boggle
 	while (sRead != null);
 	return false;
     }
+    
+    public static Boolean moveCheck (char[] [] board, String word)
+    {
+	int x, y, z, exit;
+	
+	exit = 0;
+
+	//Fill location array with dummies
+	int location[] = new int [16];
+	for (int x = 0 ; x < 16 ; x++)
+	    location [x] = -100;
+
+	//Fill wordArray with letters from the word
+	int wordArray[] = new int [word.length];
+	for (int x = 0 ; x < word.length ; x++)
+	    wordArray [x] = word.charAt (x);
+
+	//Run through word array
+	for (z = 0 ; z < wordArray.length)
+	{
+	    //Checking by row
+	    for (x = 0 ; x < 4  && exit != 1; x++)
+	    {
+		//And by column
+		for (y = 0 ; y < 4 && exit != 1; y++)
+		{
+		    //Once the letter is found
+		    if (wordArray [z] == board [x] [y])
+		    {
+			//Note its location
+			location [z] = x * 4 + y;
+			//And exit out of the two searching loops
+			exit = 1;
+		    }
+		}
+	    }
+	    //If you run through the whole board and the letter's not there
+	    if (x == 4)
+		//The word's invalid
+		return false;
+
+	}
+
+	//Run through the location array
+	for (int x = 1 ; x < word.length ; x++)
+	{
+	    //Checking that the location value of each letter, excepting the first, is within the 3x3 square centered on the previous letter
+	    if (location [x] == location [x - 1] - 5 || location [x] == location [x - 1] - 4 || location [x] == location [x - 1] - 3 || location [x] == location [x - 1] - 1 || location [x] == location [x - 1] + 1 || location [x] == location [x - 1] + 3 || location [x] == location [x - 1] + 4 || location [x] == location [x - 1] + 5)
+	    {
+	    }
+	    //Or if it's a dummy
+	    else if (location [x] == -100)
+	    {
+	    }
+	    //If the locations don't match up
+	    else
+		//The word is invalid
+		return false;
+	}
+	//If the locations are all fine
+	return true;
 }
 
 
