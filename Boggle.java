@@ -1,7 +1,13 @@
 // The "Boggle" class.
 import java.awt.*;
 import hsa.Console;
+<<<<<<< HEAD
 
+=======
+import java.io.BufferedReader;
+import java.io.FileReader;
+import java.io.IOException;
+>>>>>>> master
 public class Boggle
 {
     static Console c;           // The output console
@@ -18,14 +24,27 @@ public class Boggle
 	char board[] [] = boardGen ();
 	drawBoard (board);
 
+<<<<<<< HEAD
+=======
+
+
+>>>>>>> master
 	while (true)
 	{
 	    c.setCursor (wordRow, wordCollumn);
 	    c.print ("          ");
 	    c.setCursor (wordRow, wordCollumn);
+<<<<<<< HEAD
 	    gottenWord=c.readString ();
 	    wordRow++;
 	    
+=======
+	    gottenWord = c.readString ();
+	    wordRow++;
+	    if (spellCheck (gottenWord))
+		score++;
+
+>>>>>>> master
 	    if (wordRow > 24)
 	    {
 		c.print ("          ");
@@ -104,5 +123,56 @@ public class Boggle
 
 	return dice [dieId] [(int) (Math.random () * 6)];
     }
+<<<<<<< HEAD
 }
 
+=======
+
+
+    public static boolean spellCheck (String word)
+    {
+	String filename = "corncob_caps.txt";
+	//Uses the corncob caps dictionary file
+	//http://www.mieliestronk.com/wordlist.html
+	boolean goodSpelling;
+	try
+	{
+	    return readFromFile (filename, word);
+	}
+	catch (IOException e)
+	{
+
+	    return false;
+	}
+
+
+    }
+
+
+    //This code taken from alexmcchessers on Stack Overflow
+    //http://stackoverflow.com/questions/9913/java-file-io-compendium
+
+    public static boolean readFromFile (String filename, String word) throws /*FileNotFoundException,*/IOException
+    {
+	StringBuffer readBuffer = new StringBuffer ();
+	BufferedReader fileReader = new BufferedReader (new FileReader (filename));
+	String sRead = null;
+
+
+	do
+	{
+	    sRead = fileReader.readLine ();
+	    if (sRead.equals(word))
+	    {
+		return true;
+	    }
+	}
+	while (sRead != null);
+	return false;
+    }
+}
+
+
+
+
+>>>>>>> master
