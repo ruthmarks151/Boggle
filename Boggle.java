@@ -29,8 +29,13 @@ public class Boggle
 	    c.setCursor (wordRow, wordColumn);
 	    gottenWord = c.readString ();
 	    wordRow++;
+<<<<<<< HEAD
 	    if (spellCheck (gottenWord) && moveCheck (board, gottenWord))
 		score++;
+=======
+	    if (spellCheck (gottenWord))
+		score+=scoreWord(gottenWord);
+>>>>>>> master
 
 	    if (wordRow > 24)
 	    {
@@ -43,6 +48,27 @@ public class Boggle
 	}
 
 
+    }
+
+
+    public static int scoreWord (String word)
+    {
+	if (word.length() > 7)
+	    return 11;
+
+	if (word.length() == 7)
+	    return 5;
+
+	if (word.length() == 6)
+	    return 3;
+
+	if (word.length() == 5)
+	    return 2;
+
+	if (word.length() == 4 || word.length() == 3)
+	    return 1;
+	
+	return 0;//Words with 2 or 1 letters do not count
     }
 
 
@@ -114,10 +140,11 @@ public class Boggle
 
     public static boolean spellCheck (String word)
     {
-	String filename = "corncob_caps.txt";
+	
 	//Uses the corncob caps dictionary file
 	//http://www.mieliestronk.com/wordlist.html
-	boolean goodSpelling;
+	String filename = "corncob_caps.txt";
+	
 	try
 	{
 	    return readFromFile (filename, word);
@@ -144,13 +171,13 @@ public class Boggle
 
 	do
 	{
-	    if (word.equalsIgnoreCase (sRead))
+	    if (word.equalsIgnoreCase (sRead))//if the word is found
 	    {
 		return true;
 	    }
-	    sRead = fileReader.readLine ();
+	    sRead = fileReader.readLine ();//reads the next line in the file input buffer
 	}
-	while (sRead != null);
+	while (sRead != null);//null indicates the end of the file
 	return false;
     }
 
