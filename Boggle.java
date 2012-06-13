@@ -29,7 +29,7 @@ public class Boggle
 	    c.setCursor (wordRow, wordColumn);
 	    gottenWord = c.readString ();
 	    wordRow++;
-	    if (spellCheck (gottenWord) )//&& moveCheck (board, gottenWord))
+	    if (spellCheck (gottenWord) && moveCheck (board, gottenWord))
 		score++;
 
 	    if (wordRow > 24)
@@ -157,6 +157,7 @@ public class Boggle
 
     public static boolean moveCheck (char[] [] board, String word)
     {
+	boolean wordValidity;
 	int x;
 
 	//Fill location array with dummies
@@ -170,7 +171,7 @@ public class Boggle
 	    wordArray [i] = word.charAt (i);
 
 	//Run through word array
-	for (int z = 0 ; z < wordArray.length; z++)
+	for (int z = 0 ; z < wordArray.length ; z++)
 	{
 	    //Checking by row
 	    for (x = 0 ; x < 4 ; x++)
@@ -186,15 +187,16 @@ public class Boggle
 			//And exit out of the two searching loops
 			break;
 		    }
-		    if (wordArray [z] == board [x] [y])
-			break;
 		}
+		if (location [z] != -100)
+		    break;
 	    }
 	    //If you run through the whole board and the letter's not there
 	    if (x == 4)
 		//The word's invalid
 		return false;
 	}
+
 	//Run through the location array
 	for (int i = 1 ; i < word.length () ; i++)
 	{
